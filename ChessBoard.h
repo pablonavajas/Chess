@@ -16,22 +16,23 @@
 
 #include"ChessPieces.h"
 
-class Board {
+class ChessBoard {
 
  public:
 
-  //Piece* King_White;
-  //Piece* King_Black;
+  Piece* King_White;
+  Piece* King_Black;
 
   Piece* board[8][8];
 
   color turn;
+  string turn_str;
 
-  Board();
+  ChessBoard();
 
-  ~Board();
+  ~ChessBoard();
 
-  void setUp();
+  void resetBoard();
 
   bool checkCoord(string position);
 
@@ -42,6 +43,16 @@ class Board {
   void makeMove(coord origin, coord destin);
 
   bool moveValidity(coord origin, coord destin);
+
+  bool checkTurn(coord origin);
+
+  //
+
+  bool moveLegal(coord origin, coord destin);
+
+  bool inCheck(color team);
+
+  bool cannotMove(color team);
 
   //
 

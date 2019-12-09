@@ -39,7 +39,7 @@ class Piece {
 
   
   
-  virtual void UpdatePos(coord new_pos);
+  virtual void updatePos(coord new_pos);
 
   void moved();
 
@@ -88,22 +88,54 @@ class King : public Piece {
   
 };
 
-/*
+
 class Queen : public Piece {
-  //
+
+ public:
+
+  Queen(coord position, color team);
+
+  virtual ~Queen();
+  
+  bool valid_move(coord origin, coord destin, Piece* target) override;
+  
 };
 
-class Rooks : public Piece { //2
-  //
+class Rook : public Piece { 
+
+ public:
+
+  Rook(coord position, color team);
+
+  virtual ~Rook();
+  
+  bool valid_move(coord origin, coord destin, Piece* target) override;
+  
 };
 
-class Bishops : public Piece { //2
-  //
+class Bishop : public Piece { 
+
+ public:
+
+  Bishop(coord position, color team);
+
+  virtual ~Bishop();
+  
+  bool valid_move(coord origin, coord destin, Piece* target) override;
+  
 };
 
-class Knight : public Piece { //2
-  //
+class Knight : public Piece {
+
+ public:
+
+  Knight(coord position, color team);
+
+  virtual ~Knight();
+  
+  bool valid_move(coord origin, coord destin, Piece* target) override;
+  
 };
-*/
+
 
 #endif
