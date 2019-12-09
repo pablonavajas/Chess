@@ -16,7 +16,7 @@
 
 using namespace std;
 
-void printcb(ChessBoard cb);
+//void printcb(ChessBoard cb);
 
 int main() {
 
@@ -95,6 +95,7 @@ int main() {
   return 0;
 }
 
+/*
 void printcb(ChessBoard cb) {
 
   int row = 0;
@@ -118,3 +119,4 @@ void printcb(ChessBoard cb) {
   }
   std::cout << "\n\n";
 }
+*/

@@ -21,8 +21,6 @@ typedef enum{White, Black} color;
 typedef std::pair<int, int> coord;
 
 class Piece {
-
- public:
   
   bool first_move;
   bool can_jump;
@@ -32,13 +30,19 @@ class Piece {
   string name;
   string type;
 
+  friend class ChessBoard;
+
+  friend class Pawn;
+  friend class King;
+  friend class Queen;
+  friend class Bishop;
+  friend class Knight;
+  friend class Rook;
   
   Piece(coord position, color team);
   
   virtual ~Piece();
 
-  
-  
   virtual void updatePos(coord new_pos);
 
   void moved();

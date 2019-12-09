@@ -18,8 +18,6 @@
 
 class ChessBoard {
 
- public:
-
   Piece* King_White;
   Piece* King_Black;
 
@@ -28,11 +26,6 @@ class ChessBoard {
   color turn;
   string turn_str;
 
-  ChessBoard();
-
-  ~ChessBoard();
-
-  void resetBoard();
 
   bool checkCoord(string position);
 
@@ -46,16 +39,20 @@ class ChessBoard {
 
   bool checkTurn(coord origin);
 
-  //
-
   bool moveLegal(coord origin, coord destin);
 
   bool inCheck(color team);
 
   bool cannotMove(color team);
 
-  //
+ public:
 
+  ChessBoard();
+
+  virtual ~ChessBoard();
+  
+  void resetBoard();
+  
   void submitMove(string origin, string destin);
   
 };
