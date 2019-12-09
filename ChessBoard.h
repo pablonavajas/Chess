@@ -24,6 +24,7 @@ class ChessBoard {
   Piece* board[8][8];
 
   color turn;
+  string noturn_str;
   string turn_str;
 
 

@@ -32,6 +32,7 @@ ChessBoard::~ChessBoard() {
 void ChessBoard::resetBoard() {
 
   turn = White;
+  noturn_str = "Black";
   turn_str = "White";
   
   color team = White;
@@ -140,7 +141,7 @@ void ChessBoard::makeMove(coord origin, coord destin) {
 
   if (P_target != nullptr) {
 
-    std::cout << " taking " << turn_str << "'s " << P_target->type;
+    std::cout << " taking " << noturn_str << "'s " << P_target->type;
     P_target = nullptr;
   }
 
@@ -305,6 +306,7 @@ void ChessBoard::submitMove(string origin_str, string destin_str) {
       
       makeMove(origin, destin);
 
+      noturn_str = turn_str;
       turn_str = (turn == White) ? "Black" : "White";
       turn = (turn == White) ? Black : White;
 
