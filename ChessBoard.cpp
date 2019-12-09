@@ -73,7 +73,7 @@ void ChessBoard::resetBoard() {
     team = Black;
   }
 
-  std::cout << "A new Chess Game is started!\n";
+  std::cout << "A new Chess Game is started!" << endl;
 }
 
 bool ChessBoard::checkCoord(string position) {
