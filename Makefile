@@ -1,6 +1,6 @@
 OBJ = ChessMain.o ChessBoard.o ChessPieces.o
 
-EXE = Chess
+EXE = chess
 
 CXX = g++
 

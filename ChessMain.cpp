@@ -53,8 +53,6 @@ int main() {
   cb.submitMove("E7", "E6");
   cout << '\n';
 
-  printcb(cb);
-  
   cb.submitMove("D2", "D4");
   cb.submitMove("D7", "D5");
   cout << '\n';
