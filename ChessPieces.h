@@ -1,11 +1,13 @@
-//Imperial College London - Department of Computing
-//MSc C++ Programming - Assessed Exercise No. 3
-//Chess Game Implementation
-//
-//Created by: Pablo Navajas Helguero
-//Date: Xth December 2019
-//
-//File: ChessPieces.h
+/*********************************************************
+ * Imperial College London - Department of Computing     *
+ * MSc C++ Programming - Assessed Exercise No. 3         *
+ * Chess Game Implementation                             *
+ *                                                       *
+ * Created by: Pablo Navajas Helguero                    *
+ * Date: 9th December 2019                               *
+ *                                                       *
+ * File: ChessPieces.h                                   *
+ *********************************************************/
 
 #ifndef CHESSPIECES_H
 #define CHESSPIECES_H
@@ -15,41 +17,78 @@
 
 using std::string;
 
+typedef enum{White, Black} color;
+typedef std::pair<int, int> coord;
+
 class Piece {
 
-  int H_pos;
-  int V_pos;
-
-  Piece{};
-  virtual ~Piece{};
+ public:
   
-  virtual void Move(string initial, string final) const = 0;
+  bool first_move;
+  bool can_jump;
+  coord position;
+  color team;
 
-  int* ExtractPos(string position);
+  string name;
+  string type;
 
+  
+  Piece(coord position, color team);
+  
+  virtual ~Piece();
+
+  
+  
+  virtual void UpdatePos(coord new_pos);
+
+  void moved();
+
+  virtual bool valid_move(coord origin, coord destin, Piece* target) = 0;
+
+  friend std::ostream& operator<<(std::ostream& o, Piece& p) {
+
+    string info;
+
+    if (p.team == White)
+      info = "w";
+
+    else
+      info = "b";
+
+
+    o << p.name;
+    return o << info;
+  }
 };
+
 
 class Pawn : public Piece { //8
   
-  int* init_pos;
-  int* final_pos;
+ public:
 
-  void Move(string initial, string final);
+  Pawn(coord position, color team);
 
-  //
+  virtual ~Pawn();
+  
+
+  bool valid_move(coord origin, coord destin, Piece* target) override;
+
 };
+
 
 class King : public Piece {
 
-  int* init_pos;
-  int* final_pos;
+ public:
 
-  void Move(string initial, string final);
+  King(coord position, color team);
 
-  void CheckPos(string position);
+  virtual ~King();
+  
+  bool valid_move(coord origin, coord destin, Piece* target) override;
   
 };
 
+/*
 class Queen : public Piece {
   //
 };
@@ -65,5 +104,6 @@ class Bishops : public Piece { //2
 class Knight : public Piece { //2
   //
 };
+*/
 
 #endif
