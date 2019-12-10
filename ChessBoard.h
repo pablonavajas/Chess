@@ -58,7 +58,7 @@ class ChessBoard {
   bool cannotMove(color team);
 
  public:
-
+  
   //Class constructor
   ChessBoard();
 

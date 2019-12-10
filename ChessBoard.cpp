@@ -13,6 +13,15 @@
 
 ChessBoard::ChessBoard() {
 
+  int row = 0;
+  while (row < 8) {
+    for (int col = 0; col < 8; col++) {
+      
+      board[row][col] = nullptr;
+    }
+    row++;
+  }
+  
   //Call to reset Function (to create new board)
   resetBoard();
   
@@ -21,13 +30,19 @@ ChessBoard::ChessBoard() {
 ChessBoard::~ChessBoard() {
 
   //Deallocate all memory
-  int row=0;
+
+  King_White = nullptr;
+  King_Black = nullptr;
+  
+  int row = 0;
   while (row < 8) {
     for (int col = 0; col < 8; col++) {
-      board[row][col] = nullptr;
+      
+      delete board[row][col];
     }
     row++;
   }
+
 }
 
 
@@ -39,12 +54,22 @@ void ChessBoard::resetBoard() {
   turn_str = "White";
   
   color team = White;
-
+  
+  King_White = nullptr;
+  King_Black = nullptr;
+  
   //Deallocate previous memory
-  int row=0;
+  
+  int row = 0;
   while (row < 8) {
     for (int col = 0; col < 8; col++) {
-      board[row][col] = nullptr;
+      
+      if (board[row][col] != nullptr) {
+	
+        delete board[row][col];
+
+	board[row][col] = nullptr;
+      }
     }
     row++;
   }
@@ -160,6 +185,7 @@ void ChessBoard::makeMove(coord origin, coord destin) {
   if (P_target != nullptr) {
 
     std::cout << " taking " << noturn_str << "'s " << P_target->type;
+    delete P_target;
     P_target = nullptr;
   }
 
