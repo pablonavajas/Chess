@@ -103,13 +103,14 @@ class ChessBoard {
   //Data function to check if a color has any valid legal moves left
   bool cannotMove(color team);
 
-
-
-  
+  //Data function to check if the movement performed is castling
   bool checkCastling(coord origin, coord destin);
 
+  //Data function to make castling move
   void makeCastling(coord origin, coord destin);
 
+  //Data function to update turn and check if the game has ended or
+  // if the opponent is in check (to print informative message)
   void finishTurn();
 
  public:
