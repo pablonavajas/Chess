@@ -21,6 +21,8 @@ using std::string;
 typedef enum{White, Black} color;
 typedef std::pair<int, int> coord;
 
+/**********************Piece***********************/
+
 //Abstract Base Class Piece
 class Piece {
 
@@ -31,7 +33,7 @@ class Piece {
 
   //Data member holding a Piece identifier (used in print helper function)
   string name;
-  //Data member holding Piece type (or chessman)
+  //Data member holding Piece type (or chessmen)
   string type;
 
   //Data members holding extra information about pieces
@@ -69,6 +71,7 @@ class Piece {
   }
 };
 
+/**********************Pawn************************/
 
 class Pawn : public Piece { 
   
@@ -85,6 +88,7 @@ class Pawn : public Piece {
 
 };
 
+/**********************King************************/
 
 class King : public Piece {
 
@@ -101,6 +105,7 @@ class King : public Piece {
   
 };
 
+/*********************Queen************************/
 
 class Queen : public Piece {
 
@@ -117,6 +122,8 @@ class Queen : public Piece {
   
 };
 
+/**********************Rook************************/
+
 class Rook : public Piece { 
 
  public:
@@ -124,13 +131,15 @@ class Rook : public Piece {
   //Rook constructor
   Rook(coord position, color team);
 
-  //Rook virtual destrcutor
+  //Rook virtual destructor
   virtual ~Rook();
 
   //Overriding pure virtual function from base class to fit Rook's rules
   bool valid_move(coord origin, coord destin, Piece* target) override;
   
 };
+
+/*********************Bishop***********************/
 
 class Bishop : public Piece { 
 
@@ -146,6 +155,8 @@ class Bishop : public Piece {
   bool valid_move(coord origin, coord destin, Piece* target) override;
   
 };
+
+/*********************Knight***********************/
 
 class Knight : public Piece {
 

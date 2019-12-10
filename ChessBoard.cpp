@@ -11,6 +11,35 @@
 
 #include"ChessBoard.h"
 
+/********************Exceptions********************/
+
+//
+AnyError::AnyError(const string& msg) : explanation(msg) {}
+
+
+AnyError::~AnyError() {}
+
+
+const char* AnyError::what() const noexcept {
+
+  return explanation.c_str();
+}
+
+
+InputError::InputError(const string& msg, const string& input) : AnyError(msg) {
+
+  explanation = explanation + ": " + input;
+}
+
+
+CoordError::CoordError(const string& msg, const string& input, const char& coord) :
+  AnyError(msg) {
+
+  explanation = explanation + ": " + input + " - Invalid coord : " + coord;
+}
+  
+/*******************ChessBoard*********************/
+
 ChessBoard::ChessBoard() {
 
   int row = 0;
@@ -110,20 +139,29 @@ void ChessBoard::resetBoard() {
 }
 
 
-bool ChessBoard::checkCoord(string position) {
+void ChessBoard::checkCoord(string position) {
 
+  string msg = "Invalid position enterred - ";
+  
   //Ensure only two coordinates are entered
-  if (position.length() != 2)
-    return true;
+  if (position.length() != 2) {
+
+    msg = msg + "coordinates size exceeded (only two)\nYour input";
+    throw InputError(msg, position);
+  }
 
   //Ensure the coordinates are in the correct range:
-  else if (position[0] - 'A' > 7 or position[0] - 'A' < 0)
-    return true;
+  else if (position[0] - 'A' > 7 or position[0] - 'A' < 0) {
 
-  else if (position[1] - '1' > 7 or position[1] - '1' < 0)
-    return true;
+    msg = msg + "coordinate out of range (must be between A-H)\nYour input";
+    throw CoordError(msg, position, position[0]);
+  }
 
-  return false;
+  else if (position[1] - '1' > 7 or position[1] - '1' < 0) {
+
+    msg = msg + "coordinate out of range (must be between 1-8)\nYour input";
+    throw CoordError(msg, position, position[1]);
+  }
 }
 
 
@@ -355,8 +393,20 @@ bool ChessBoard::cannotMove(color team) {
 void ChessBoard::submitMove(string origin_str, string destin_str) {
 
   //Ensure valid coordinates are introduced
-  if (checkCoord(origin_str) or checkCoord(destin_str)){
+  try {
+    checkCoord(origin_str);
+    checkCoord(destin_str);
     
+  } catch (const InputError& e) {
+    
+    std::cerr << e.what() << "\n";
+    return;
+  } catch (const CoordError& e) {
+    
+    std::cerr << e.what() << "\n";
+    return;
+  }catch (...) {
+
     std::cerr << "Invalid position enterred\n";
     return;
   }

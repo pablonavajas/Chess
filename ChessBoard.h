@@ -13,21 +13,62 @@
 #define CHESSBOARD_H
 
 #include<iostream>
-
+#include<exception>
 #include<iomanip>
 
 #include"ChessPieces.h"
 
 using std::setw;
 
+/********************Exceptions********************/
+
+//Exception class to inherit from exception base class
+class AnyError : public std::exception {
+
+ protected:
+
+  string explanation;
+
+ public:
+
+  AnyError(const string& msg);
+  
+  ~AnyError() override;
+
+  const char* what() const noexcept override;
+  
+};
+
+//Exception class to record input exceeding coordinates size
+class InputError : public AnyError {
+
+ public:
+
+  InputError(const string& msg, const string& input);
+  
+};
+
+//Exception class to record coordinate out of range
+class CoordError : public AnyError {
+
+ public:
+
+  CoordError(const string& msg, const string& input, const char& coord);
+
+};
+
+
+/*******************ChessBoard*********************/
+
 class ChessBoard {
 
+  static const int sizeBoard = 8;
+  
   //Data members to keep tract of the Kings at all times
   Piece* King_White;
   Piece* King_Black;
 
   //Data member consisting of an array of Piece pointers (simulate chess board)
-  static const int sizeBoard = 8;
   Piece* board[sizeBoard][sizeBoard];
 
   //Data members to implement turn and print informative messages
@@ -36,7 +77,7 @@ class ChessBoard {
   string turn_str;
 
   //Data function to check input is correct
-  bool checkCoord(string position);
+  void checkCoord(string position);
 
   //Data function to check if a square coordinate holds a piece
   bool squareState(coord pos);
@@ -80,5 +121,6 @@ class ChessBoard {
   void print();
   
 };
+
 
 #endif
