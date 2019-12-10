@@ -13,7 +13,7 @@
 
 #include<iostream>
 
-//Piece:
+/**********************Piece***********************/
 
 Piece::Piece(coord position, color team) : position(position), team(team) {
     
@@ -35,7 +35,8 @@ void Piece::moved() {
 }
 
 
-/***************Pawn***********************/
+/**********************Pawn************************/
+
 //Constructor using base class initialiser:
 Pawn::Pawn(coord position, color team) : Piece(position, team) {
 
@@ -101,7 +102,8 @@ bool Pawn::valid_move(coord origin, coord destin, Piece* target) {
 }
 
 
-/***************King*********************/
+/**********************King************************/
+
 //Constructor using base class initialiser
 King::King(coord position, color team) : Piece(position, team) {
 
@@ -137,8 +139,8 @@ bool King::valid_move(coord origin, coord destin, Piece* target) {
 }
 
 
+/*********************Queen************************/
 
-/*****************Queen*******************/
 //Constructor using base class initialiser
 Queen::Queen(coord position, color team) : Piece(position, team) {
 
@@ -179,7 +181,8 @@ bool Queen::valid_move(coord origin, coord destin, Piece* target) {
 }
 
 
-/*********************Rook***********************/
+/**********************Rook************************/
+
 //Constructor using base class initialiser
 Rook::Rook(coord position, color team) : Piece(position, team) {
 
@@ -209,8 +212,8 @@ bool Rook::valid_move(coord origin, coord destin, Piece* target) {
 }
 
 
+/*********************Bishop***********************/
 
-/**********************Bishop*******************/
 //Constructor using base class initialiser
 Bishop::Bishop(coord position, color team) : Piece(position, team) {
 
@@ -246,8 +249,8 @@ bool Bishop::valid_move(coord origin, coord destin, Piece* target) {
 }
 
 
-
 /*********************Knight***********************/
+
 //Constructor using base class initialiser
 Knight::Knight(coord position, color team) : Piece(position, team) {
 

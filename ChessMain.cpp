@@ -12,11 +12,9 @@
 #include"ChessBoard.h"
 
 #include<iostream>
-#include<iomanip>
 
 using namespace std;
 
-//void printcb(ChessBoard cb);
 
 int main() {
 
@@ -92,31 +90,8 @@ int main() {
   cb.submitMove("D3", "G6");
   cout << '\n';
   
+
+  
   return 0;
 }
 
-/*
-void printcb(ChessBoard cb) {
-
-  int row = 0;
-  std::cout << "-------------------------------------------------\n";
-
-  while (row < 8) {
-
-    for (int col = 0; col < 8; col++) {
-
-      coord posc = std::make_pair(row,col);
-
-      if (cb.squareState(posc)) {
-	std::cout << "| " << setw(2) << *cb.board[row][col] << " ";
-      }
-      else {
-	std::cout << "| " << setw(2) << "   " << " ";
-      }
-    }
-    row++;
-    std::cout << "|\n-------------------------------------------------\n";
-  }
-  std::cout << "\n\n";
-}
-*/

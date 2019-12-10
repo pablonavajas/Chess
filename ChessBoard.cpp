@@ -14,8 +14,8 @@
 ChessBoard::ChessBoard() {
 
   int row = 0;
-  while (row < 8) {
-    for (int col = 0; col < 8; col++) {
+  while (row < sizeBoard) {
+    for (int col = 0; col < sizeBoard; col++) {
       
       board[row][col] = nullptr;
     }
@@ -35,8 +35,8 @@ ChessBoard::~ChessBoard() {
   King_Black = nullptr;
   
   int row = 0;
-  while (row < 8) {
-    for (int col = 0; col < 8; col++) {
+  while (row < sizeBoard) {
+    for (int col = 0; col < sizeBoard; col++) {
       
       delete board[row][col];
     }
@@ -61,8 +61,8 @@ void ChessBoard::resetBoard() {
   //Deallocate previous memory
   
   int row = 0;
-  while (row < 8) {
-    for (int col = 0; col < 8; col++) {
+  while (row < sizeBoard) {
+    for (int col = 0; col < sizeBoard; col++) {
       
       if (board[row][col] != nullptr) {
 	
@@ -75,7 +75,7 @@ void ChessBoard::resetBoard() {
   }
 
   //Create first line for each player
-  for (int row = 0; row < 8; row += 7) {
+  for (int row = 0; row < sizeBoard; row += 7) {
 
     //Create necessary Pieces in the Heap
     board[row][0] = new Rook(std::make_pair(row,0),team);
@@ -97,9 +97,9 @@ void ChessBoard::resetBoard() {
   //Create line of Pawns for each player
   team = White;
 
-  for (int row = 1; row < 8; row += 5) {
+  for (int row = 1; row < sizeBoard; row += 5) {
 
-    for (int col = 0; col < 8; col++) {
+    for (int col = 0; col < sizeBoard; col++) {
 
       board[row][col] = new Pawn(std::make_pair(row,col), team);
     }
@@ -295,8 +295,8 @@ bool ChessBoard::inCheck(color team) {
   Piece* teamKing = (team == White) ? King_White : King_Black;
 
   //Check all locations to see if they point to a Piece
-  for (int row = 0; row < 8; row++) {
-    for (int col = 0; col < 8; col++) {
+  for (int row = 0; row < sizeBoard; row++) {
+    for (int col = 0; col < sizeBoard; col++) {
 
       //If they point to one, check that it is of the opponent's team
       if (board[row][col] != nullptr and board[row][col]->team != team) {
@@ -321,8 +321,8 @@ bool ChessBoard::inCheck(color team) {
 bool ChessBoard::cannotMove(color team) {
 
   //Check all locations to see if they point to a Piece
-  for (int team_r = 0; team_r < 8; team_r++) {
-    for (int team_c = 0; team_c < 8; team_c++) {
+  for (int team_r = 0; team_r < sizeBoard; team_r++) {
+    for (int team_c = 0; team_c < sizeBoard; team_c++) {
 
       //If they point to one, check that it is of the playing team
       if (board[team_r][team_c] != nullptr and board[team_r][team_c]->team == team){
@@ -331,8 +331,8 @@ bool ChessBoard::cannotMove(color team) {
 	coord rival_pos;
 
 	//Check if it can perform a valid legal move to any position in the board
-	for (int rival_r = 0; rival_r < 8; rival_r++) {
-	  for (int rival_c = 0; rival_c < 8; rival_c++) {
+	for (int rival_r = 0; rival_r < sizeBoard; rival_r++) {
+	  for (int rival_c = 0; rival_c < sizeBoard; rival_c++) {
 
 	    rival_pos = std::make_pair(rival_r, rival_c);
 
@@ -407,3 +407,32 @@ void ChessBoard::submitMove(string origin_str, string destin_str) {
   }
 }
 
+void ChessBoard::print() {
+
+  int row = 7;
+
+  
+  std::cout << "CHESS--------------------------------------------------\n";
+  std::cout << "BOARD |  A  |  B  |  C  |  D  |  E  |  F  |  G  |  H  |\n";
+  std::cout << "-------------------------------------------------------\n";
+
+  while (row >= 0) {
+
+    std::cout << "| " << setw(2) << row + 1 << "  ";
+
+    for (int col = 0; col < sizeBoard; col++) {
+
+      coord posc = std::make_pair(row,col);
+
+      if (squareState(posc)) {
+	std::cout << "| " << setw(2) << *board[row][col] << " ";
+      }
+      else {
+	std::cout << "| " << setw(2) << "   " << " ";
+      }
+    }
+    row--;
+    std::cout << "|\n-------------------------------------------------------\n";
+  }
+  std::cout << "\n\n";
+}

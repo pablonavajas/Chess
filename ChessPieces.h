@@ -24,6 +24,7 @@ typedef std::pair<int, int> coord;
 //Abstract Base Class Piece
 class Piece {
 
+ public:
   //Data members used to store color and coordinates of the Piece
   coord position;
   color team;
@@ -36,16 +37,6 @@ class Piece {
   //Data members holding extra information about pieces
   bool first_move;
   bool can_jump;
-
-  //Declare other classes as friends: can access to their private data members
-  friend class ChessBoard;
-
-  friend class Pawn;
-  friend class King;
-  friend class Queen;
-  friend class Bishop;
-  friend class Knight;
-  friend class Rook;
 
   //Class constructor
   Piece(coord position, color team);
@@ -61,7 +52,7 @@ class Piece {
   //Pure virtual function, to ensure Pieces of a certain type are created
   virtual bool valid_move(coord origin, coord destin, Piece* target) = 0;
 
-  //Define friend extraction operator (used in print helper function)
+  //Friend extraction operator (used in print helper function)
   friend std::ostream& operator<<(std::ostream& o, Piece& p) {
 
     //Print piece identifier plus color information

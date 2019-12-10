@@ -14,7 +14,11 @@
 
 #include<iostream>
 
+#include<iomanip>
+
 #include"ChessPieces.h"
+
+using std::setw;
 
 class ChessBoard {
 
@@ -23,7 +27,8 @@ class ChessBoard {
   Piece* King_Black;
 
   //Data member consisting of an array of Piece pointers (simulate chess board)
-  Piece* board[8][8];
+  static const int sizeBoard = 8;
+  Piece* board[sizeBoard][sizeBoard];
 
   //Data members to implement turn and print informative messages
   color turn;
@@ -70,6 +75,9 @@ class ChessBoard {
   
   //Data function to try a movement
   void submitMove(string origin, string destin);
+
+  //Data function to print current board
+  void print();
   
 };
 
