@@ -235,7 +235,7 @@ bool ChessBoard::moveValidity(coord origin, coord destin) {
 
   Piece* P_origin = board[origin.first][origin.second];
   Piece* P_destin = board[destin.first][destin.second];
-
+  
   //Check the move is valid for the piece
   if (P_origin->valid_move(origin, destin, P_destin)) {
 
@@ -373,6 +373,11 @@ bool ChessBoard::cannotMove(color team) {
 	  for (int rival_c = 0; rival_c < sizeBoard; rival_c++) {
 
 	    rival_pos = std::make_pair(rival_r, rival_c);
+	    
+	    if (checkCastling(team_pos, rival_pos)) {
+
+	      return false;
+	    }
 
 	    if (moveValidity(team_pos, rival_pos)) {
 
@@ -388,6 +393,122 @@ bool ChessBoard::cannotMove(color team) {
   }
   return true;       
 }
+
+
+bool ChessBoard::checkCastling(coord origin, coord destin) {
+
+  //Select the king that needs to be checked
+  Piece* teamKing = (turn == White) ? King_White : King_Black;
+
+  //Check player is not in check
+  if (inCheck(turn))
+    return false;
+
+  //Check the player's king is being moved
+  if (origin != teamKing->position)
+    return false;
+
+  //Check the king has not been moved before
+  if (!teamKing->first_move)
+    return false;
+
+  //Check the destination is free
+  if (squareState(destin))
+    return false;
+
+  int V_change = destin.first - origin.first;
+  int H_change = destin.second - origin.second;
+
+  //Ensure the king is moving only two positions horizonatlly
+  if (abs(V_change) != 0 or abs(H_change) != 2)
+    return false;
+
+  //Based on the horizontal direction (given by H_change), find 
+  //the distance between the king's final position and the Rook
+  
+  int distRook = (H_change > 0) ? 1 : -2;
+
+  //Check the path between the king and the rook is free
+  if (!pathFree(origin, std::make_pair(destin.first, destin.second + distRook)))
+    return false;
+  
+  //Check there is a piece at the rook's position
+  if (board[destin.first][destin.second + distRook] == nullptr)
+    return false;
+
+  //Check the piece has not moved (meaning it is the Rook)
+  if (!board[destin.first][destin.second + distRook]->first_move)
+    return false;
+
+  /*Check if squares between the king and its destination *
+   *are under attack (destination included)               */
+
+  //Using a helper variable to know the direction of movement
+  int H_move = (H_change > 0) ? 1 : -1;
+  
+  int H_start = origin.second + H_move;
+
+  while (H_start != destin.second + H_move) {
+    
+    if (!moveLegal(origin, std::make_pair(destin.first, H_start)))
+      return false;
+
+    H_start += H_move;
+  }
+
+  return true;
+}
+
+void ChessBoard::makeCastling(coord origin, coord destin) {
+
+  int H_change = destin.second - origin.second;
+
+  //Based on the horizontal direction (given by H_change), find 
+  //the distance between the king's final position and the Rook
+  
+  int distRook = (H_change > 0) ? 1 : -2;
+
+  //Find distance from rook to its final destination after castling
+  int moveRook = (H_change > 0) ? -1 : 1;
+
+  //Move the two pieces
+  Piece* castRook;
+
+  castRook = board[destin.first][destin.second + distRook];
+  
+  makeMove(origin, destin);
+
+  makeMove(castRook->position, std::make_pair(destin.first, destin.second + moveRook));
+
+  castRook = nullptr;
+}
+
+void ChessBoard::finishTurn() {
+
+  //Update turn (and turn strings for messaging)
+  noturn_str = turn_str;
+  turn_str = (turn == White) ? "Black" : "White";
+  turn = (turn == White) ? Black : White;
+  
+  //Check if opponent has no valid legal moves left
+  if (cannotMove(turn)) {
+    
+    //Differentiate between checkmate and stalemate
+    if (inCheck(turn)) {
+      std::cout << turn_str << " is in checkmate\n";
+    }
+    else {
+      std::cout << turn_str << " is in stalemate\n";
+    }
+    return;
+  }
+  
+  //Check if opponent is in check
+  else if (inCheck(turn)) {
+    std::cout << turn_str << " is in check\n";
+  }
+}
+
 
 
 void ChessBoard::submitMove(string origin_str, string destin_str) {
@@ -420,6 +541,17 @@ void ChessBoard::submitMove(string origin_str, string destin_str) {
     return;
   }
 
+  //Check if it is castling
+  if (checkCastling(origin, destin)) {
+
+    makeCastling(origin, destin);
+
+    finishTurn();
+    
+    return;
+  }
+  
+
   //Check the move is valid and can be done
   if (moveValidity(origin, destin)) {
 
@@ -427,28 +559,9 @@ void ChessBoard::submitMove(string origin_str, string destin_str) {
 
       makeMove(origin, destin);
 
-      //Update turn (and turn strings for messaging)
-      noturn_str = turn_str;
-      turn_str = (turn == White) ? "Black" : "White";
-      turn = (turn == White) ? Black : White;
+      finishTurn();
 
-      //Check if opponent has no valid legal moves left
-      if (cannotMove(turn)) {
-
-	//Differentiate between checkmate and stalemate
-	if (inCheck(turn)) {
-	  std::cout << turn_str << " is in checkmate\n";
-	}
-	else {
-	  std::cout << turn_str << "is in stalemate\n";
-	}
-	return;
-      }
-
-      //Check if opponent is in check
-      else if (inCheck(turn)) {
-	std::cout << turn_str << " is in check\n";
-      }
+      return;
     }
   }
   else {

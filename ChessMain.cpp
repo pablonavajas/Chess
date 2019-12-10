@@ -18,6 +18,7 @@ using namespace std;
 
 int main() {
 
+  
   cout << "========================\n";
   cout << "Testing the Chess Engine\n";
   cout << "========================\n\n";
@@ -41,7 +42,7 @@ int main() {
 
   cb.submitMove("Y3", "B4");
 
-  /*
+  
   cout << "=========================\n";
   cout << "Alekhine vs. Vasic (1931)\n";
   cout << "=========================\n\n";
@@ -91,8 +92,60 @@ int main() {
   
   cb.submitMove("D3", "G6");
   cout << '\n';
-  */
+  /*
+  cout << "========================\n";
+  cout << "Testing Chess Castling  \n";
+  cout << "========================\n\n";
 
+  cb.resetBoard();
+  cout << '\n';
+  
+  cb.submitMove("E2", "E3");
+  cout << '\n';
+  
+  cb.submitMove("E7", "E5");
+  cout << '\n';
+  
+  cb.submitMove("B1", "C3");
+  cout << '\n';
+  
+  cb.submitMove("B8", "A6");
+  cout << '\n';
+
+  cb.submitMove("B2", "B3");
+  cout << '\n';
+
+  cb.print();
+  
+  cb.submitMove("F8", "C5");
+  cout << '\n';
+
+  cb.print();
+  
+  cb.submitMove("C1", "A3");
+  cout << '\n';
+
+  cb.print();
+  
+  cb.submitMove("G8", "F6");
+  cout << '\n';
+  
+  cb.submitMove("D1", "G4");
+  cout << '\n';
+  
+  cb.print();
+  
+  cb.submitMove("E8", "G8");
+  cout << '\n';
+  
+  cb.submitMove("E1", "C1");
+  cout << '\n';
+  
+  cb.print();
+
+  cb.submitMove("A8", "B8");
+  cout << '\n';
+  */
   
   return 0;
 }
